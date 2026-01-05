@@ -18,5 +18,7 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
-    $router->post('/login', ['uses' => 'LoginController@validateLogin']);
+    $router->post('/login', ['uses' => 'UsuarioController@validateLogin']);
+
+    $router->post('/register', ['uses' => 'UsuarioController@createRegister']);
 });
