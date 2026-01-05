@@ -49,6 +49,22 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        // Se for erro de validação, retorna JSON
+        if ($exception instanceof ValidationException) {
+            return response()->json([
+                'message' => 'Erro de validação',
+                'errors' => $exception->errors()
+            ], 422);
+        }
+
+        // Opcional: força JSON para qualquer outro request que envie JSON
+        if ($request->wantsJson() || $request->isJson()) {
+            $status = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], $status);
+        }
+
         return parent::render($request, $exception);
     }
 }

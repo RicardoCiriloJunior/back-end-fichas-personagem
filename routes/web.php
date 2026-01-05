@@ -14,5 +14,9 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return response()->json(['hi' => 'funcionou']);
+});
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->post('/login', ['uses' => 'LoginController@validateLogin']);
 });
