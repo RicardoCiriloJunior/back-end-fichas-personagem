@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Firebase\JWT\JWT;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -26,7 +27,10 @@ class UsuarioController extends BaseController
             ], 401);
         }
 
-        return response()->json($usuario);
+        return response()->json([
+            'usuario' => $usuario,
+            'token' => $this->generateToken($usuario)
+        ]);
     }
     public function createRegister(Request $request): JsonResponse
     {
@@ -47,6 +51,20 @@ class UsuarioController extends BaseController
             'message' => 'Usuario criado com sucesso',
             'usuario' => $usuario
         ], 201);
+    }
+    public function generateToken(Usuario $usuario): string
+    {
+        $payload = [
+            'sub' => $usuario->id,
+            'iat' => time(),
+            'exp' => time() + (10 * 3600)
+        ];
+
+        return JWT::encode(
+            $payload,
+            env('JWT_SECRET'),
+            'HS256'
+        );
     }
 }
 

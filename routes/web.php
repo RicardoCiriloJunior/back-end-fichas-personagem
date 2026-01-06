@@ -21,4 +21,9 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('/login', ['uses' => 'UsuarioController@validateLogin']);
 
     $router->post('/register', ['uses' => 'UsuarioController@createRegister']);
+
+    $router->put('/update-ficha', [
+        'middleware' => 'auth',
+        'uses' => 'UsuarioController@updateFicha'
+    ]);
 });
