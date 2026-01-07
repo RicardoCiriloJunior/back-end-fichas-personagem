@@ -66,5 +66,16 @@ class UsuarioController extends BaseController
             'HS256'
         );
     }
+
+    public function updateFicha(Request $request)
+    {
+        $validatedData = $this->validator->validateUpdateFicha($request);
+
+        $usuario = Usuario::where('id', $validatedData['user_id'])->first();
+        $usuario->ficha = $validatedData['ficha'];
+        $usuario->save();
+
+        return response()->json(['message' => 'Ficha atualizada com sucesso!']);
+    }
 }
 

@@ -40,4 +40,17 @@ class UsuarioRequest
 
         ])->validate();
     }
+    public function validateUpdateFicha(Request $request): array
+    {
+        return Validator::make($request->all(), [
+            'ficha' => [
+                'required',
+                'array'
+            ],
+            'user_id' => [
+                'required',
+                'integer'
+            ]
+        ])->validate();
+    }
 }
