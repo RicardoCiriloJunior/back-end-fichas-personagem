@@ -1,17 +1,15 @@
 <?php
 namespace App\Http\Controllers;
 
-use Firebase\JWT\JWT;
+use App\Services\UsuarioService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use App\Http\Requests\UsuarioRequest;
-use App\Models\Usuario;
 
 class UsuarioController extends BaseController
 {
-    public function __construct(private readonly UsuarioRequest $validator)
+    public function __construct(private readonly UsuarioRequest $validator, private readonly UsuarioService $service)
     {
     }
 
@@ -19,61 +17,46 @@ class UsuarioController extends BaseController
     {
         $validatedData = $this->validator->validateLogin($request);
 
-        $usuario = Usuario::where('email', $validatedData['email'])->first();
+        $result = $this->service->validateLogin(
+            $validatedData['email'],
+            $validatedData['password']
+        );
 
-        if (!$usuario || !Hash::check($validatedData['password'], $usuario->senha)){
+        if (!$result) {
             return response()->json([
                 'message' => 'Informações incorretas! Tente novamente!'
             ], 401);
         }
 
-        return response()->json([
-            'usuario' => $usuario,
-            'token' => $this->generateToken($usuario)
-        ]);
+        return response()->json($result);
     }
     public function createRegister(Request $request): JsonResponse
     {
         $validatedData = $this->validator->validateRegister($request);
 
-        if (Usuario::where('email', $validatedData['email'])->exists()){
+        $usuario = $this->service->createRegister($validatedData);
+
+        if (!$usuario) {
             return response()->json(['message' => 'Esse usuário já existe!'], 409);
         }
 
-        $usuario = Usuario::create([
-            'nome' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'senha' => Hash::make($validatedData['password']),
-            'ficha' => []
-        ]);
-
         return response()->json([
-            'message' => 'Usuario criado com sucesso',
+            'message' => 'Usuário criado com sucesso',
             'usuario' => $usuario
         ], 201);
     }
-    public function generateToken(Usuario $usuario): string
-    {
-        $payload = [
-            'sub' => $usuario->id,
-            'iat' => time(),
-            'exp' => time() + (10 * 3600)
-        ];
 
-        return JWT::encode(
-            $payload,
-            env('JWT_SECRET'),
-            'HS256'
-        );
-    }
-
-    public function updateFicha(Request $request)
+    public function updateFicha(Request $request): JsonResponse
     {
         $validatedData = $this->validator->validateUpdateFicha($request);
+        $updated = $this->service->updateFicha(
+            $validatedData['user_id'],
+            $validatedData['ficha']
+        );
 
-        $usuario = Usuario::where('id', $validatedData['user_id'])->first();
-        $usuario->ficha = $validatedData['ficha'];
-        $usuario->save();
+        if (!$updated) {
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
 
         return response()->json(['message' => 'Ficha atualizada com sucesso!']);
     }
