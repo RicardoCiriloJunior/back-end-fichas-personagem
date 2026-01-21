@@ -18,6 +18,10 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('/me', [
+        'middleware' => 'auth',
+        'uses' => 'UsuarioController@getUsuarioData'
+    ]);
     $router->post('/login', ['uses' => 'UsuarioController@validateLogin']);
 
     $router->post('/register', ['uses' => 'UsuarioController@createRegister']);

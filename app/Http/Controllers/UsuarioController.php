@@ -41,8 +41,7 @@ class UsuarioController extends BaseController
         }
 
         return response()->json([
-            'message' => 'Usuário criado com sucesso',
-            'usuario' => $usuario
+            'message' => 'Usuário criado com sucesso'
         ], 201);
     }
 
@@ -59,6 +58,21 @@ class UsuarioController extends BaseController
         }
 
         return response()->json(['message' => 'Ficha atualizada com sucesso!']);
+    }
+    public function getUsuarioData(Request $request): JsonResponse
+    {
+        $validatedData = $this->validator->validateGetUsuarioData($request);
+        $usuario = $this->service->getUsuarioData($validatedData['user_id']);
+
+        if (!$usuario) {
+            return response()->json(['message' => 'Usuário não encontrado']);
+        }
+
+        return response()->json($usuario);
+    }
+    public function sendPasswordResetCode(Request $request): JsonResponse
+    {
+        return response()->json();
     }
 }
 

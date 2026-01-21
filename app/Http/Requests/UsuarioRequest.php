@@ -53,4 +53,17 @@ class UsuarioRequest
             ]
         ])->validate();
     }
+    public function validateGetUsuarioData(Request $request): array
+    {
+        return Validator::make($request->all(), [
+            'user_id' => [
+                'required',
+                'integer'
+            ]
+        ])->validate();
+    }
+    public function validateRequestPasswordReset(Request $request): array
+    {
+        return [];
+    }
 }

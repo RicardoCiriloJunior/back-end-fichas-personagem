@@ -23,7 +23,6 @@ class UsuarioService
         $token = $this->generateToken($usuario);
 
         return [
-            'usuario' => $usuario,
             'token' => $token
         ];
     }
@@ -62,5 +61,19 @@ class UsuarioService
 
         $usuario->ficha = $ficha;
         return $this->repository->save($usuario);
+    }
+    public function getUsuarioData($userId): array
+    {
+        $usuario = $this->repository->findById($userId);
+        return ['usuario' => $usuario];
+    }
+
+    public function generatePasswordResetToken(string $email): string
+    {
+        return "";
+    }
+    public function sendPasswordResetEmail(string $email, string $code)
+    {
+        return "";
     }
 }
