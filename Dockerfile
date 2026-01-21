@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libzip-dev \
     zip \
-    && docker-php-ext-install pdo_mysql mbstring zip \
+    && docker-php-ext-install pdo_pgsql pgsql mbstring zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Define diretório de trabalho
