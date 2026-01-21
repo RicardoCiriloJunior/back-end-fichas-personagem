@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libonig-dev \
     libzip-dev \
+    libpq-dev \
     zip \
     && docker-php-ext-install pdo_pgsql pgsql mbstring zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
