@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Usuario;
+use App\Util\TemplateFicha;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -29,7 +30,7 @@ class UsuarioRepository
             'nome' => $data['name'],
             'email' => $data['email'],
             'senha' => $data['password'],
-            'ficha' => []
+            'ficha' => TemplateFicha::$ficha
         ]);
 
         return $usuario;
