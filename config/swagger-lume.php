@@ -38,5 +38,8 @@ return [
     'operations_sort' => env('L5_SWAGGER_OPERATIONS_SORT', null),
     'validator_url' => null,
     'constants' => [],
-    'force_https' => env('SWAGGER_LUME_FORCE_HTTPS', false),
+    'force_https' => env(
+        'SWAGGER_LUME_FORCE_HTTPS',
+        env('APP_ENV', 'production') === 'production'
+    ),
 ];
