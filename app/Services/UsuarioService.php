@@ -3,27 +3,26 @@
 namespace App\Services;
 
 use App\Models\Usuario;
+use App\Repositories\UsuarioRepository;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\Hash;
-use App\Repositories\UsuarioRepository;
+
 class UsuarioService
 {
-    public function __construct(private readonly UsuarioRepository $repository)
-    {
-    }
+    public function __construct(private readonly UsuarioRepository $repository) {}
 
     public function validateLogin(string $email, string $password): ?array
     {
         $usuario = $this->repository->findByEmail($email);
 
-        if (!$usuario || !Hash::check($password, $usuario->senha)){
+        if (! $usuario || ! Hash::check($password, $usuario->senha)) {
             return null;
         }
 
         $token = $this->generateToken($usuario);
 
         return [
-            'token' => $token
+            'token' => $token,
         ];
     }
 
@@ -35,7 +34,6 @@ class UsuarioService
         $data['password'] = Hash::make($data['password']);
 
         return $this->repository->createUsuario($data);
-
     }
 
     public function generateToken(Usuario $usuario): string
@@ -43,7 +41,7 @@ class UsuarioService
         $payload = [
             'sub' => $usuario->id,
             'iat' => time(),
-            'exp' => time() + (10 * 3600)
+            'exp' => time() + (10 * 3600),
         ];
 
         return JWT::encode(
@@ -57,23 +55,29 @@ class UsuarioService
     {
         $usuario = $this->repository->findById($userId);
 
-        if (!$usuario) return false;
+        if (! $usuario) {
+            return false;
+        }
 
         $usuario->ficha = $ficha;
+
         return $this->repository->save($usuario);
     }
+
     public function getUsuarioData($userId): array
     {
         $usuario = $this->repository->findById($userId);
+
         return ['usuario' => $usuario];
     }
 
     public function generatePasswordResetToken(string $email): string
     {
-        return "";
+        return '';
     }
+
     public function sendPasswordResetEmail(string $email, string $code)
     {
-        return "";
+        return '';
     }
 }

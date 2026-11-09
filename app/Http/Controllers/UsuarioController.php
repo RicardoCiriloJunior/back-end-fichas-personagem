@@ -1,18 +1,17 @@
 <?php
+
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsuarioRequest;
 use App\Services\UsuarioService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
-use App\Http\Requests\UsuarioRequest;
 use OpenApi\Annotations as OA;
 
 class UsuarioController extends BaseController
 {
-    public function __construct(private readonly UsuarioRequest $validator, private readonly UsuarioService $service)
-    {
-    }
+    public function __construct(private readonly UsuarioRequest $validator, private readonly UsuarioService $service) {}
 
     /**
      * @OA\Post(
@@ -48,9 +47,9 @@ class UsuarioController extends BaseController
             $validatedData['password']
         );
 
-        if (!$result) {
+        if (! $result) {
             return response()->json([
-                'message' => 'Informações incorretas! Tente novamente!'
+                'message' => 'Informações incorretas! Tente novamente!',
             ], 401);
         }
 
@@ -83,7 +82,7 @@ class UsuarioController extends BaseController
 
         $usuario = $this->service->createRegister($validatedData);
 
-        if (!$usuario) {
+        if (! $usuario) {
             return response()->json(['message' => 'Esse usuário já existe!'], 409);
         }
 
@@ -120,12 +119,13 @@ class UsuarioController extends BaseController
             $validatedData['ficha']
         );
 
-        if (!$updated) {
+        if (! $updated) {
             return response()->json(['message' => 'Usuário não encontrado'], 404);
         }
 
         return response()->json(['message' => 'Ficha atualizada com sucesso!']);
     }
+
     /**
      * @OA\Get(
      *     path="/api/me",
@@ -146,12 +146,13 @@ class UsuarioController extends BaseController
         $validatedData = $this->validator->validateGetUsuarioData($request);
         $usuario = $this->service->getUsuarioData($validatedData['user_id']);
 
-        if (!$usuario) {
+        if (! $usuario) {
             return response()->json(['message' => 'Usuário não encontrado']);
         }
 
         return response()->json($usuario);
     }
+
     public function sendPasswordResetCode(Request $request): JsonResponse
     {
         return response()->json();

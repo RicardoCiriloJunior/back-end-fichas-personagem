@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Util;
-class TemplateFicha {
+
+class TemplateFicha
+{
     public static array $ficha = [
         'jogador' => '',
         'nome' => '',

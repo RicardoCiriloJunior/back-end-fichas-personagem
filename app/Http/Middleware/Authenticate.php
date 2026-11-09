@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Usuario;
 use Closure;
+use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class Authenticate
     public function handle(Request $request, Closure $next)
     {
         $authorization = $request->header('Authorization');
-        if (!$authorization) {
+        if (! $authorization) {
             return response()->json(['message' => 'Token não fornecido!'], 401);
         }
         $parts = explode(' ', $authorization);
@@ -26,16 +27,15 @@ class Authenticate
             $payload = JWT::decode($token, new Key(env('JWT_SECRET'), 'HS256'));
             $userId = $payload->sub;
 
-            if (!Usuario::where('id', $userId)->exists()) {
+            if (! Usuario::where('id', $userId)->exists()) {
                 return response()->json(['message' => 'Esse usuário não existe!']);
             }
 
             $request->merge(['user_id' => $userId]);
-        } catch (\Exception $e) {
-            return  response()->json(['message' => 'Token inválido!'], 401);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Token inválido!'], 401);
         }
 
         return $next($request);
     }
-
 }

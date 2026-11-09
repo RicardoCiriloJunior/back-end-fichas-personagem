@@ -1,8 +1,18 @@
 <?php
 
+use App\Console\Kernel as AppConsoleKernel;
+use App\Exceptions\Handler;
+use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CorsMiddleware;
+use Illuminate\Contracts\Console\Kernel as ConsoleKernel;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use Laravel\Lumen\Application;
+use Laravel\Lumen\Bootstrap\LoadEnvironmentVariables;
+use SwaggerLume\ServiceProvider;
+
 require_once __DIR__.'/../vendor/autoload.php';
 
-(new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
+(new LoadEnvironmentVariables(
     dirname(__DIR__)
 ))->bootstrap();
 
@@ -19,7 +29,7 @@ date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 |
 */
 
-$app = new Laravel\Lumen\Application(
+$app = new Application(
     dirname(__DIR__)
 );
 
@@ -39,13 +49,13 @@ $app->withEloquent();
 */
 
 $app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+    ExceptionHandler::class,
+    Handler::class
 );
 
 $app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
+    ConsoleKernel::class,
+    AppConsoleKernel::class
 );
 
 /*
@@ -78,10 +88,10 @@ $app->configure('swagger-lume');
 // ]);
 
  $app->routeMiddleware([
-     'auth' => App\Http\Middleware\Authenticate::class,
+     'auth' => Authenticate::class,
  ]);
 $app->middleware([
-    App\Http\Middleware\CorsMiddleware::class
+    CorsMiddleware::class,
 ]);
 /*
 |--------------------------------------------------------------------------
@@ -97,7 +107,7 @@ $app->middleware([
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-$app->register(SwaggerLume\ServiceProvider::class);
+$app->register(ServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

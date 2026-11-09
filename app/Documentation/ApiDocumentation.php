@@ -10,18 +10,22 @@ use OpenApi\Annotations as OA;
  *     version="1.0.0",
  *     description="API para cadastro, autenticação e gerenciamento de fichas."
  * )
+ *
  * @OA\Server(url="/")
+ *
  * @OA\SecurityScheme(
  *     securityScheme="bearerAuth",
  *     type="http",
  *     scheme="bearer",
  *     bearerFormat="JWT"
  * )
+ *
  * @OA\Schema(
  *     schema="Message",
  *     type="object",
  *     @OA\Property(property="message", type="string")
  * )
+ *
  * @OA\Schema(
  *     schema="Usuario",
  *     type="object",
@@ -30,6 +34,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="email", type="string", format="email"),
  *     @OA\Property(property="ficha", type="object", additionalProperties=true)
  * )
+ *
  * @OA\Schema(
  *     schema="UsuarioEnvelope",
  *     type="object",
@@ -39,6 +44,7 @@ use OpenApi\Annotations as OA;
  *         nullable=true
  *     )
  * )
+ *
  * @OA\Schema(
  *     schema="ValidationError",
  *     type="object",
@@ -53,6 +59,4 @@ use OpenApi\Annotations as OA;
  *     )
  * )
  */
-class ApiDocumentation
-{
-}
+class ApiDocumentation {}
