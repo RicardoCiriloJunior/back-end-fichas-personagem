@@ -12,11 +12,12 @@ class Usuario extends Model
         'email',
         'senha',
         'nome',
-        'ficha'
+        'ficha',
     ];
 
     protected $casts = [
-        'ficha' => 'array'
+        'ficha' => 'array',
     ];
+
     protected $hidden = ['senha'];
 }

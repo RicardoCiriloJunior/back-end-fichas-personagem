@@ -21,7 +21,7 @@ class UsuarioControllerTest extends TestCase
             ->once()
             ->with(7, ['nome' => 'Ficha'])
             ->andReturn(true);
-        $controller = new UsuarioController(new UsuarioRequest(), $service);
+        $controller = new UsuarioController(new UsuarioRequest, $service);
 
         $response = $controller->updateFicha(Request::create('/api/update-ficha', 'PUT', [
             'user_id' => 7,
@@ -39,7 +39,7 @@ class UsuarioControllerTest extends TestCase
     {
         $service = Mockery::mock(UsuarioService::class);
         $service->shouldReceive('updateFicha')->once()->andReturn(false);
-        $controller = new UsuarioController(new UsuarioRequest(), $service);
+        $controller = new UsuarioController(new UsuarioRequest, $service);
 
         $response = $controller->updateFicha(Request::create('/api/update-ficha', 'PUT', [
             'user_id' => 7,

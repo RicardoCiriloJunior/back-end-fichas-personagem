@@ -1,6 +1,8 @@
 <?php
 
-/** @var \Laravel\Lumen\Routing\Router $router */
+use Laravel\Lumen\Routing\Router;
+
+/** @var Router $router */
 
 /*
 |--------------------------------------------------------------------------
@@ -13,14 +15,14 @@
 |
 */
 
-$router->get('/', function () use ($router) {
+$router->get('/', function () {
     return response()->json(['hi' => 'funcionou']);
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('/me', [
         'middleware' => 'auth',
-        'uses' => 'UsuarioController@getUsuarioData'
+        'uses' => 'UsuarioController@getUsuarioData',
     ]);
     $router->post('/login', ['uses' => 'UsuarioController@validateLogin']);
 
@@ -28,6 +30,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->put('/update-ficha', [
         'middleware' => 'auth',
-        'uses' => 'UsuarioController@updateFicha'
+        'uses' => 'UsuarioController@updateFicha',
     ]);
 });
