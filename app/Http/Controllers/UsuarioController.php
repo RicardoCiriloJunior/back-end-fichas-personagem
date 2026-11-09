@@ -160,4 +160,3 @@ class UsuarioController extends BaseController
         return response()->json();
     }
 }
-
