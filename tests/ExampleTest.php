@@ -16,8 +16,10 @@ class ExampleTest extends TestCase
     {
         $this->get('/');
 
-        $this->assertEquals(
-            $this->app->version(), $this->response->getContent()
+        $this->assertSame(200, $this->response->getStatusCode());
+        $this->assertSame(
+            ['hi' => 'funcionou'],
+            json_decode($this->response->getContent(), true)
         );
     }
 }

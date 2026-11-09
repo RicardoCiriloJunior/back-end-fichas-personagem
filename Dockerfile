@@ -37,6 +37,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Instala dependências do projeto
 RUN composer install --no-dev --optimize-autoloader
 
+# Gera a especificação OpenAPI a partir das anotações do projeto
+RUN php artisan swagger-lume:generate
+
 # Expõe a porta 8000
 EXPOSE 8000
 

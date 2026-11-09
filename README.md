@@ -1,5 +1,11 @@
 # Lumen PHP Framework
 
+## Documentação da API
+
+O SwaggerLume gera a especificação OpenAPI a partir das anotações nos controllers. Após adicionar ou atualizar essa dependência, sincronize o lockfile com `composer update darkaonline/swagger-lume --with-dependencies`. Para gerar o arquivo localmente, execute `php artisan swagger-lume:generate`. No Docker, essa geração é feita durante o build.
+
+A interface Swagger UI fica em `/api/documentation`; o documento JSON fica em `/docs`. Os endpoints documentados são `POST /api/login`, `POST /api/register`, `GET /api/me` e `PUT /api/update-ficha`. Os dois últimos exigem um JWT no cabeçalho `Authorization: Bearer <token>`.
+
 [![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
 [![Total Downloads](https://img.shields.io/packagist/dt/laravel/lumen-framework)](https://packagist.org/packages/laravel/lumen-framework)
 [![Latest Stable Version](https://img.shields.io/packagist/v/laravel/lumen-framework)](https://packagist.org/packages/laravel/lumen-framework)
