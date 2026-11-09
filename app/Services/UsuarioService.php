@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UsuarioService
 {
-    public function __construct(private readonly UsuarioRepository $repository) {}
+    public function __construct(private readonly UsuarioRepository $repository)
+    {
+    }
 
     public function validateLogin(string $email, string $password): ?array
     {

@@ -11,7 +11,9 @@ use OpenApi\Annotations as OA;
 
 class UsuarioController extends BaseController
 {
-    public function __construct(private readonly UsuarioRequest $validator, private readonly UsuarioService $service) {}
+    public function __construct(private readonly UsuarioRequest $validator, private readonly UsuarioService $service)
+    {
+    }
 
     /**
      * @OA\Post(

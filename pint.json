@@ -1,6 +1,17 @@
 {
     "preset": "laravel",
     "rules": {
-        "unary_operator_spaces": false
+        "unary_operator_spaces": false,
+        "single_line_empty_body": false,
+        "phpdoc_separation": {
+            "groups": [
+                ["deprecated", "link", "see", "since"],
+                ["author", "copyright", "license"],
+                ["category", "package", "subpackage"],
+                ["property", "property-read", "property-write"],
+                ["param", "return"]
+            ],
+            "skip_unlisted_annotations": true
+        }
     }
 }
