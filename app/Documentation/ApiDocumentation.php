@@ -59,4 +59,7 @@ use OpenApi\Annotations as OA;
  *     )
  * )
  */
-class ApiDocumentation {}
+class ApiDocumentation
+{
+    // The OpenAPI documentation is declared in this class's docblock.
+}

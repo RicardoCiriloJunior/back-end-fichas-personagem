@@ -87,7 +87,7 @@ class UsuarioController extends BaseController
         }
 
         return response()->json([
-            'message' => 'Usuário criado com sucesso'
+            'message' => 'Usuário criado com sucesso',
         ], 201);
     }
 

@@ -87,9 +87,9 @@ $app->configure('swagger-lume');
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
- $app->routeMiddleware([
-     'auth' => Authenticate::class,
- ]);
+$app->routeMiddleware([
+    'auth' => Authenticate::class,
+]);
 $app->middleware([
     CorsMiddleware::class,
 ]);
